@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            button:hover {
+                background: #ddd;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
   <body>
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player"></div>
     <br />
-    <button id="switch">SWITCH</button>
+    <br />
+    <button id="switch">SWITCH VIDEO</button>
 
     <script>
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
+
+      let videoId = "M7lc1UVf-VE";
 
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -23,7 +34,7 @@
         player = new YT.Player('player', {
           height: '390',
           width: '640',
-          videoId: 'M7lc1UVf-VE',
+          videoId,
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -43,6 +54,7 @@
       var done = false;
       function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING && !done) {
+        // don't need this for the demonstration
         //   setTimeout(stopVideo, 6000);
           done = true;
         }
@@ -52,8 +64,9 @@
       }
 
       switchButton.addEventListener("click", event => {
-        console.log("SWITCH");
+        console.log("SWITCH!");
         
+        // switch out the iframe for a new div
         const playerFrame = document.getElementById("player");
         const playerDiv = document.createElement("div");
         
@@ -61,10 +74,19 @@
         playerFrame.remove();        
         playerDiv.id = "player";
 
+        // switch the videoId
+        if(videoId === "M7lc1UVf-VE"){
+            videoId = "PG1WyGj7LSo";
+        }
+        else{
+            videoId = "M7lc1UVf-VE";
+        }
+
+        // get and set the new video
         player = new YT.Player('player', {
           height: '390',
           width: '640',
-          videoId: 'M3GQM7tuq2w',
+          videoId,
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
